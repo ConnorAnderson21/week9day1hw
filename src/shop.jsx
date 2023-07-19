@@ -2,8 +2,8 @@ import { useContext, useEffect, useState } from "react"
 import axios from "axios";
 import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
-// import Button from 'react-bootstrap/Button';
-// import { DataContext } from "../context/DataProvider";
+import Button from 'react-bootstrap/Button';
+import { DataContext } from "./context/DataProvider";
 
 
 
@@ -22,7 +22,31 @@ const Shop = () => {
 
         setPokemon(data.pokemon);
     }
+
+
     const [pokemon, setPokemon] = useState(() => loadPokemonData());
+    
+  
+
+    const { cart, setCart } = useContext(DataContext);
+
+
+    const addPokemon = (pokemon) => {
+        
+        let copyCart = { ...cart };
+        
+        copyCart.size++;
+        copyCart.total += (Math.round(pokemon.price * 100) / 100);
+        copyCart.pokemon[pokemon.id] ?
+            copyCart.pokemon[pokemon.id].quantity++
+            :
+            copyCart.pokemon[pokemon.id] = { data: pokemon, quantity: 1 };
+        console.log(copyCart);
+     
+        setCart(copyCart);
+    }
+
+    
     return (
         <div>
             <h1>Rare Pokemon Market</h1>
@@ -44,7 +68,9 @@ const Shop = () => {
                                 <ListGroup.Item>HP: {p.hp}</ListGroup.Item>
                                 <ListGroup.Item>Price: ${p.price}</ListGroup.Item>
                             </ListGroup>
-
+<Card.Body>
+                                <Button variant="success" onClick={() => addPokemon(p)}>Add to cart</Button>
+                            </Card.Body>
 
                         </Card>
                     }) :    null  

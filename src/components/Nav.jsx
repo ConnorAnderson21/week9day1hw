@@ -20,6 +20,9 @@ export function Nav() {
                         <li className="nav-item">
                             <Link className="nav-link" to="/shop">Shop</Link>
                         </li>
+                        <li className="nav-item">
+                            <Link className="nav-link" to="/cart">Cart</Link>
+                        </li>
                         
                             
                         
